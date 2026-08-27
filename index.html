@@ -54,8 +54,12 @@
     <div class="card" id="shipments">
       <div class="head"><h2>Create Shipment</h2><span class="pill">AI assisted</span></div>
       <div class="formgrid">
-        <div class="field"><label>ORIGIN</label><select id="from"><option>Guwahati</option><option>Shillong</option><option>Agartala</option><option>Silchar</option></select></div>
-        <div class="field"><label>DESTINATION</label><select id="to"><option>Imphal</option><option>Aizawl</option><option>Kohima</option><option>Itanagar</option></select></div>
+        <div class="field"><label>ORIGIN</label><select id="from">
+          <option>Andaman and Nicobar Islands</option><option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option selected>Assam</option><option>Bihar</option><option>Chandigarh</option><option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Puducherry</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+        </select></div>
+        <div class="field"><label>DESTINATION</label><select id="to">
+          <option>Andaman and Nicobar Islands</option><option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chandigarh</option><option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option><option>Maharashtra</option><option selected>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Puducherry</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+        </select></div>
         <div class="field"><label>CARGO WEIGHT</label><input id="weight" type="number" value="2" min="0.1"></div>
         <div class="field"><label>VEHICLE</label><select><option>Medium Truck</option><option>Light Commercial Vehicle</option><option>Heavy Truck</option></select></div>
         <div class="field full"><label>CARGO TYPE</label><select><option>General Goods</option><option>Perishable</option><option>Medical Supplies</option><option>Electronics</option></select></div>
@@ -94,9 +98,46 @@
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-const CITIES={Guwahati:[26.1445,91.7362],Shillong:[25.5788,91.8933],Agartala:[23.8315,91.2868],Silchar:[24.8333,92.7789],Imphal:[24.8170,93.9368],Aizawl:[23.7271,92.7176],Kohima:[25.6751,94.1086],Itanagar:[27.0844,93.6053]};
-const map=L.map('map',{zoomControl:true,scrollWheelZoom:false}).setView([25.3,93.0],6);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:12}).addTo(map);
+const CITIES={
+  "Andaman and Nicobar Islands":[11.6234,92.7265],
+  "Andhra Pradesh":[16.5062,80.6480],
+  "Arunachal Pradesh":[27.0844,93.6053],
+  "Assam":[26.1445,91.7362],
+  "Bihar":[25.5941,85.1376],
+  "Chandigarh":[30.7333,76.7794],
+  "Chhattisgarh":[21.2514,81.6296],
+  "Dadra and Nagar Haveli and Daman and Diu":[20.3974,72.8328],
+  "Delhi":[28.6139,77.2090],
+  "Goa":[15.4909,73.8278],
+  "Gujarat":[23.2156,72.6369],
+  "Haryana":[28.4595,77.0266],
+  "Himachal Pradesh":[31.1048,77.1734],
+  "Jammu and Kashmir":[34.0837,74.7973],
+  "Jharkhand":[23.3441,85.3096],
+  "Karnataka":[12.9716,77.5946],
+  "Kerala":[8.5241,76.9366],
+  "Ladakh":[34.1526,77.5771],
+  "Lakshadweep":[10.5626,72.6369],
+  "Madhya Pradesh":[23.2599,77.4126],
+  "Maharashtra":[19.0760,72.8777],
+  "Manipur":[24.8170,93.9368],
+  "Meghalaya":[25.5788,91.8933],
+  "Mizoram":[23.7271,92.7176],
+  "Nagaland":[25.6751,94.1086],
+  "Odisha":[20.2961,85.8245],
+  "Puducherry":[11.9416,79.8083],
+  "Punjab":[30.9010,75.8573],
+  "Rajasthan":[26.9124,75.7873],
+  "Sikkim":[27.3389,88.6065],
+  "Tamil Nadu":[13.0827,80.2707],
+  "Telangana":[17.3850,78.4867],
+  "Tripura":[23.8315,91.2868],
+  "Uttar Pradesh":[26.8467,80.9462],
+  "Uttarakhand":[30.3165,78.0322],
+  "West Bengal":[22.5726,88.3639]
+};
+const map=L.map('map',{zoomControl:true,scrollWheelZoom:false}).setView([22.5,80.5],4.4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:14}).addTo(map);
 Object.entries(CITIES).forEach(([name,ll])=>{L.circleMarker(ll,{radius:5,color:'#9aa5b1',weight:2,fillColor:'#fff',fillOpacity:1}).addTo(map).bindTooltip(name,{direction:'top'})});
 let originMarker,destMarker,routeLine;
 function haversineKm(a,b){const R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,x=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
@@ -125,7 +166,7 @@ async function drawRoute(fromName,toName){
   map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
   return {distanceKm,durationHr,accurate};
 }
-drawRoute('Guwahati','Imphal');
+drawRoute('Assam','Manipur');
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
 async function optimize(){
   const f=document.getElementById('from').value,t=document.getElementById('to').value,w=document.getElementById('weight').value;

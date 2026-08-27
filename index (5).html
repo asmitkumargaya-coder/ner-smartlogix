@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NER SmartLogix | AI Logistics & Accessibility</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--navy:#0a2a52;--blue:#0a2a52;--cyan:#ff9933;--green:#138808;--orange:#ff9933;--red:#c0392b;--bg:#f7f7f4;--card:#fff;--text:#1a1f29;--muted:#5c6b7a;--line:#e3e1d9;--saffron:#ff9933;--ashoka:#0b3d91}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{display:flex;min-height:100vh}.side{position:fixed;width:245px;height:100vh;background:var(--navy);color:#dce5f7;padding:22px 16px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:5px 10px 28px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}.nav a{display:block;color:#aeb9cf;text-decoration:none;padding:12px;border-radius:10px;margin:5px 0}.nav a.active,.nav a:hover{background:#12345f;color:#fff;border-left:3px solid var(--saffron)}.side-note{position:absolute;left:16px;right:16px;bottom:20px;background:#182440;border-radius:12px;padding:12px;color:#9eabc4;font-size:11px;line-height:1.5}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 34px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 5px;font-size:25px}.top p{margin:0;color:var(--muted);font-size:13px}.user{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #1423460a}.stat{padding:17px}.label{color:var(--muted);font-size:12px}.value{font-size:26px;font-weight:800;margin:5px 0}.trend{font-size:11px;color:var(--green)}.grid{display:grid;grid-template-columns:1.65fr 1fr;gap:18px;margin-top:18px}.card{padding:18px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.head h2{font-size:16px;margin:0}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff2e0;color:var(--ashoka);border:1px solid #ffe0b3}.map{height:345px;border-radius:12px;position:relative;overflow:hidden;background:#e9ecef}.map .leaflet-container{height:100%;width:100%;font:14px Inter,system-ui,sans-serif;border-radius:12px}.leaflet-popup-content{font-size:12px}.leaflet-popup-content b{color:var(--navy)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:11px;color:var(--muted)}input,select{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}.full{grid-column:1/-1}.primary{margin-top:12px;width:100%;border:0;border-radius:9px;padding:11px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.recommend{margin-top:14px;background:#f1fbf8;border:1px solid #c9efe1;padding:12px;border-radius:10px;font-size:12px}.recommend strong{color:var(--green)}.routes{margin-top:18px}.routeitem{display:grid;grid-template-columns:1fr 85px 85px 85px;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:12px}.routeitem:last-child{border:0}.routeitem b{font-size:13px}.score{font-weight:800;color:var(--green)}.warning{color:var(--orange)}.activity{display:grid;gap:11px}.act{display:flex;gap:10px;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex:none}.chat{margin-top:18px}.chatbox{display:flex;gap:8px}.chatbox input{flex:1}.ask{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 15px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:10px;background:#f5f8ff;border:1px solid #dfe7ff;padding:10px;border-radius:9px;font-size:12px;line-height:1.5}.toast{position:fixed;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 15px;border-radius:10px;display:none;font-size:12px}
+.tricolor-strip{position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ff9933 0 33%,#ffffff 33% 66%,#138808 66% 100%);z-index:50}.app{padding-top:4px}.side{padding-top:26px}
+@media(max-width:900px){.side{width:70px}.brand span,.nav a span,.side-note{display:none}.main{margin-left:70px;width:calc(100% - 70px);padding:20px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}@media(max-width:600px){.stats{grid-template-columns:1fr}.main{padding:14px}.routeitem{grid-template-columns:1fr 70px}.routeitem div:nth-child(3),.routeitem div:nth-child(4){display:none}.top{align-items:flex-start;gap:10px}}
+</style>
+</head>
+<body>
+<div class="tricolor-strip"></div>
+<div class="app">
+<aside class="side">
+  <div class="brand"><div class="logo">N</div><span>NER SmartLogix</span></div>
+  <nav class="nav">
+    <a class="active" href="#"><span>▦ &nbsp; Dashboard</span></a>
+    <a href="#routes"><span>⌁ &nbsp; Route Intelligence</span></a>
+    <a href="#shipments"><span>▣ &nbsp; Shipments</span></a>
+    <a href="#access"><span>◉ &nbsp; Accessibility</span></a>
+    <a href="#assistant"><span>✦ &nbsp; AI Assistant</span></a>
+  </nav>
+  <div class="side-note"><b>SIH 2026 Prototype</b><br>AI-powered logistics planning for the North Eastern Region.</div>
+</aside>
+
+<main class="main">
+  <header class="top">
+    <div><h1>Smart Logistics Command Center</h1><p>AI-Based Logistics & Accessibility Platform for NER</p></div>
+    <div class="user">● Demo Mode</div>
+  </header>
+
+  <section class="stats">
+    <div class="stat"><div class="label">Active Shipments</div><div class="value">128</div><div class="trend">↑ 12% this week</div></div>
+    <div class="stat"><div class="label">Avg. Route Score</div><div class="value">91/100</div><div class="trend">↑ 6 points</div></div>
+    <div class="stat"><div class="label">Est. Cost Saved</div><div class="value">₹4.8L</div><div class="trend">AI optimization</div></div>
+    <div class="stat"><div class="label">On-Time Delivery</div><div class="value">94.2%</div><div class="trend">↑ 3.1%</div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="head"><h2>AI Route Intelligence</h2><span class="pill">Live simulation</span></div>
+      <div class="map" id="map"></div>
+      <div class="routes" id="routes">
+        <div class="routeitem"><div><b>Recommended • NH-2 Corridor</b><br><span class="muted">Balanced time + accessibility</span></div><div><b>8h 20m</b></div><div>₹18,400</div><div class="score">92/100</div></div>
+        <div class="routeitem"><div><b>Alternative • Scenic Corridor</b><br><span class="muted">Lower congestion</span></div><div><b>9h 05m</b></div><div>₹16,900</div><div class="score">87/100</div></div>
+        <div class="routeitem"><div><b>Fastest • Express Corridor</b><br><span class="muted warning">Accessibility alert</span></div><div><b>7h 35m</b></div><div>₹20,700</div><div class="warning">78/100</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="shipments">
+      <div class="head"><h2>Create Shipment</h2><span class="pill">AI assisted</span></div>
+      <div class="formgrid">
+        <div class="field"><label>ORIGIN</label><select id="from"><option>Guwahati</option><option>Shillong</option><option>Agartala</option><option>Silchar</option></select></div>
+        <div class="field"><label>DESTINATION</label><select id="to"><option>Imphal</option><option>Aizawl</option><option>Kohima</option><option>Itanagar</option></select></div>
+        <div class="field"><label>CARGO WEIGHT</label><input id="weight" type="number" value="2" min="0.1"></div>
+        <div class="field"><label>VEHICLE</label><select><option>Medium Truck</option><option>Light Commercial Vehicle</option><option>Heavy Truck</option></select></div>
+        <div class="field full"><label>CARGO TYPE</label><select><option>General Goods</option><option>Perishable</option><option>Medical Supplies</option><option>Electronics</option></select></div>
+      </div>
+      <button class="primary" onclick="optimize()">Optimize Route with AI</button>
+      <div class="recommend" id="recommend"><strong>AI Recommendation:</strong> Enter shipment details and run optimization.</div>
+    </div>
+  </section>
+
+  <section class="grid" id="access">
+    <div class="card">
+      <div class="head"><h2>Accessibility & Risk Layer</h2><span class="pill">NER coverage</span></div>
+      <div class="activity">
+        <div class="act"><span class="dot"></span><div><b>Road accessibility</b><br>Primary corridor currently rated <b>High accessibility</b>.</div></div>
+        <div class="act"><span class="dot" style="background:var(--orange)"></span><div><b>Weather sensitivity</b><br>Moderate disruption risk detected on elevated sections.</div></div>
+        <div class="act"><span class="dot" style="background:var(--green)"></span><div><b>Connectivity</b><br>Recommended corridor has stable logistics connectivity.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Recent Activity</h2><span class="pill">Today</span></div>
+      <div class="activity">
+        <div class="act"><span class="dot"></span><div><b>Shipment SL-1048</b><br>Route optimized • 2 min ago</div></div>
+        <div class="act"><span class="dot"></span><div><b>Imphal corridor</b><br>Accessibility score updated • 18 min ago</div></div>
+        <div class="act"><span class="dot"></span><div><b>Shipment SL-1044</b><br>Delivered successfully • 42 min ago</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card chat" id="assistant">
+    <div class="head"><h2>✦ NER AI Logistics Assistant</h2><span class="pill">Prototype AI</span></div>
+    <div class="chatbox"><input id="question" placeholder="Ask: What is the best route for a 2-ton shipment to Imphal?"><button class="ask" onclick="askAI()">Ask AI</button></div>
+    <div class="answer" id="answer"></div>
+  </section>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const CITIES={Guwahati:[26.1445,91.7362],Shillong:[25.5788,91.8933],Agartala:[23.8315,91.2868],Silchar:[24.8333,92.7789],Imphal:[24.8170,93.9368],Aizawl:[23.7271,92.7176],Kohima:[25.6751,94.1086],Itanagar:[27.0844,93.6053]};
+const map=L.map('map',{zoomControl:true,scrollWheelZoom:false}).setView([25.3,93.0],6);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:12}).addTo(map);
+Object.entries(CITIES).forEach(([name,ll])=>{L.circleMarker(ll,{radius:5,color:'#9aa5b1',weight:2,fillColor:'#fff',fillOpacity:1}).addTo(map).bindTooltip(name,{direction:'top'})});
+let originMarker,destMarker,routeLine;
+function haversineKm(a,b){const R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,x=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+async function drawRoute(fromName,toName){
+  const from=CITIES[fromName],to=CITIES[toName];
+  if(!from||!to)return;
+  if(routeLine)map.removeLayer(routeLine);
+  if(originMarker)map.removeLayer(originMarker);
+  if(destMarker)map.removeLayer(destMarker);
+  const saffron=getComputedStyle(document.documentElement).getPropertyValue('--saffron').trim()||'#ff9933';
+  let latlngs=[from,to],distanceKm=haversineKm(from,to)*1.35,durationHr=distanceKm/45,accurate=false;
+  try{
+    const url=`https://router.project-osrm.org/route/v1/driving/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
+    const res=await fetch(url);
+    const data=await res.json();
+    if(data.code==='Ok'&&data.routes&&data.routes[0]){
+      latlngs=data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+      distanceKm=data.routes[0].distance/1000;
+      durationHr=data.routes[0].duration/3600;
+      accurate=true;
+    }
+  }catch(e){/* offline or blocked - fall back to straight-line estimate below */}
+  routeLine=L.polyline(latlngs,{color:saffron,weight:4,opacity:0.9}).addTo(map);
+  originMarker=L.circleMarker(from,{radius:8,color:'#fff',weight:3,fillColor:'#ff9933',fillOpacity:1}).addTo(map).bindPopup('<b>Origin:</b> '+fromName);
+  destMarker=L.circleMarker(to,{radius:8,color:'#fff',weight:3,fillColor:'#138808',fillOpacity:1}).addTo(map).bindPopup('<b>Destination:</b> '+toName+(accurate?`<br>${distanceKm.toFixed(0)} km road route`:''));
+  map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
+  return {distanceKm,durationHr,accurate};
+}
+drawRoute('Guwahati','Imphal');
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
+async function optimize(){
+  const f=document.getElementById('from').value,t=document.getElementById('to').value,w=document.getElementById('weight').value;
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> Calculating optimal route…';
+  toast('Calculating road-accurate route…');
+  const r=await drawRoute(f,t);
+  const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
+  const cost=Math.round(r.distanceKm*(120+parseFloat(w||1)*35));
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+w+' ton(s) from '+f+' to '+t+', use the <b>Balanced Accessibility Route</b>. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+cost.toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
+  toast(r.accurate?'Route optimized using live road data':'Route optimized (estimated — offline)');
+}
+function askAI(){const q=document.getElementById('question').value.trim();const a=document.getElementById('answer');if(!q){a.textContent='Please enter a logistics question.';a.style.display='block';return}a.innerHTML='<b>AI:</b> Based on the prototype logistics model, the balanced route is recommended because it offers the best trade-off between estimated travel time, cost, accessibility and disruption risk. <br><br><b>Demo note:</b> Live map, weather and government data APIs can be connected in the production version.';a.style.display='block'}
+</script>
+</body>
+</html>

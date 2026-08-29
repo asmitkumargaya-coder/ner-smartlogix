@@ -16,7 +16,7 @@
 <div class="tricolor-strip"></div>
 <div class="app">
 <aside class="side">
-  <div class="brand"><div class="logo">N</div><span>NER SmartLogix</span></div>
+  <div class="brand"><div class="logo">P</div><span>PRAGATI NER</span></div>
   <nav class="nav">
     <a class="active" href="#"><span>▦ &nbsp; Dashboard</span></a>
     <a href="#routes"><span>⌁ &nbsp; Route Intelligence</span></a>
@@ -29,7 +29,7 @@
 
 <main class="main">
   <header class="top">
-    <div><h1>PRAGATI NER</h1><p>AI-Based Logistics & Accessibility Platform for NER</p></div>
+    <div><h1>Smart Logistics Command Center</h1><p>AI-Based Logistics & Accessibility Platform for NER</p></div>
     <div class="user">● Demo Mode</div>
   </header>
 
@@ -230,6 +230,50 @@ async function estimateFallback(from,to){
   const distanceKm=haversineKm(from,to)*1.35;
   return {latlngs:[from,to],distanceKm,durationHr:distanceKm/45,accurate:false};
 }
+const STATE_RISK={
+  "Andaman and Nicobar Islands":{"rain":82,"slide":30},
+  "Andhra Pradesh":{"rain":45,"slide":15},
+  "Arunachal Pradesh":{"rain":82,"slide":85},
+  "Assam":{"rain":80,"slide":38},
+  "Bihar":{"rain":55,"slide":10},
+  "Chandigarh":{"rain":32,"slide":8},
+  "Chhattisgarh":{"rain":55,"slide":20},
+  "Dadra and Nagar Haveli and Daman and Diu":{"rain":55,"slide":15},
+  "Delhi":{"rain":32,"slide":5},
+  "Goa":{"rain":80,"slide":32},
+  "Gujarat":{"rain":35,"slide":10},
+  "Haryana":{"rain":28,"slide":5},
+  "Himachal Pradesh":{"rain":60,"slide":85},
+  "Jammu and Kashmir":{"rain":45,"slide":80},
+  "Jharkhand":{"rain":50,"slide":22},
+  "Karnataka":{"rain":50,"slide":42},
+  "Kerala":{"rain":85,"slide":55},
+  "Ladakh":{"rain":12,"slide":68},
+  "Lakshadweep":{"rain":68,"slide":8},
+  "Madhya Pradesh":{"rain":45,"slide":15},
+  "Maharashtra":{"rain":55,"slide":40},
+  "Manipur":{"rain":70,"slide":75},
+  "Meghalaya":{"rain":92,"slide":75},
+  "Mizoram":{"rain":78,"slide":80},
+  "Nagaland":{"rain":75,"slide":78},
+  "Odisha":{"rain":60,"slide":22},
+  "Puducherry":{"rain":48,"slide":10},
+  "Punjab":{"rain":30,"slide":6},
+  "Rajasthan":{"rain":20,"slide":5},
+  "Sikkim":{"rain":80,"slide":88},
+  "Tamil Nadu":{"rain":45,"slide":38},
+  "Telangana":{"rain":42,"slide":14},
+  "Tripura":{"rain":78,"slide":55},
+  "Uttar Pradesh":{"rain":40,"slide":10},
+  "Uttarakhand":{"rain":65,"slide":82},
+  "West Bengal":{"rain":68,"slide":48}
+};
+function riskColor(v){return v>=60?'var(--red)':v>=35?'var(--orange)':'var(--green)'}
+function getBaselineRisk(fromLabel,toLabel){
+  const fState=fromLabel.split(',').pop().trim(),tState=toLabel.split(',').pop().trim();
+  const a=STATE_RISK[fState]||{rain:40,slide:20},b=STATE_RISK[tState]||{rain:40,slide:20};
+  return {rain:(a.rain+b.rain)/2,slide:(a.slide+b.slide)/2};
+}
 let currentRoutes=[],currentIdx=0,fromLabelG='',toLabelG='',weightG=1;
 async function computeRoutes(fromName,toName,from,to,weight){
   fromLabelG=fromName;toLabelG=toName;weightG=weight;
@@ -248,17 +292,22 @@ async function computeRoutes(fromName,toName,from,to,weight){
 
   const costPerKm=(w)=>120+parseFloat(w||1)*35;
   const cost=(distanceKm,w)=>Math.round(distanceKm*costPerKm(w));
+  const clamp=(v)=>Math.max(3,Math.min(96,Math.round(v)));
+  const baseline=getBaselineRisk(fromName,toName);
 
   currentRoutes=[
-    {label:'Recommended',sub:'Balanced • NH Corridor'+(base.accurate?'':' (offline estimate)'),
-     latlngs:base.latlngs,distanceKm:base.distanceKm,durationHr:base.durationHr,
-     cost:cost(base.distanceKm,weight),score:92,warn:false,accurate:base.accurate},
-    {label:'Alternative',sub:scenic===base?'Lower congestion (est.)':'Lower congestion • Scenic detour',
-     latlngs:scenic.latlngs,distanceKm:scenic.distanceKm*(scenic===base?1.08:1),durationHr:scenic.durationHr*(scenic===base?1.12:1),
-     cost:cost(scenic.distanceKm*(scenic===base?1.08:1),weight)*0.93,score:87,warn:false,accurate:scenic.accurate},
-    {label:'Fastest',sub:'Accessibility alert',
+    {label:'Safest',sub:'Major highway • lower weather exposure'+(base.accurate?'':' (offline estimate)'),
+     latlngs:base.latlngs,distanceKm:base.distanceKm,durationHr:base.durationHr*1.05,
+     cost:cost(base.distanceKm,weight),score:94,warn:false,accurate:base.accurate,
+     rain:clamp(baseline.rain*0.55),slide:clamp(baseline.slide*0.4)},
+    {label:'Fastest',sub:'Express corridor • higher speed, slightly less caution',
      latlngs:base.latlngs,distanceKm:base.distanceKm*0.94,durationHr:base.durationHr*0.85,
-     cost:cost(base.distanceKm*0.94,weight)*1.15,score:78,warn:true,accurate:base.accurate}
+     cost:cost(base.distanceKm*0.94,weight)*1.15,score:81,warn:false,accurate:base.accurate,
+     rain:clamp(baseline.rain*0.8),slide:clamp(baseline.slide*0.7)},
+    {label:'Riskier',sub:(scenic===base?'Shortcut estimate':'Hill shortcut / bypass')+' • rainfall & landslide alert',
+     latlngs:scenic.latlngs,distanceKm:scenic.distanceKm*0.9,durationHr:scenic.durationHr*0.8,
+     cost:cost(scenic.distanceKm*0.9,weight)*0.85,score:60,warn:true,accurate:scenic.accurate,
+     rain:clamp(baseline.rain*1.3),slide:clamp(baseline.slide*1.35)}
   ];
   renderRouteList();
   selectRoute(0);
@@ -269,7 +318,7 @@ function renderRouteList(){
   el.innerHTML=currentRoutes.map((r,i)=>{
     const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
     return `<div class="routeitem${i===currentIdx?' active':''}" onclick="selectRoute(${i})">
-      <div><b>${r.label} • ${fromLabelG.split(',')[0]} → ${toLabelG.split(',')[0]}</b><br><span class="muted${r.warn?' warning':''}">${r.sub}</span></div>
+      <div><b>${r.label} Route • ${fromLabelG.split(',')[0]} → ${toLabelG.split(',')[0]}</b><br><span class="muted${r.warn?' warning':''}">${r.sub}</span><br><span class="muted" style="font-size:11px">🌧 Rainfall risk: <b style="color:${riskColor(r.rain)}">${r.rain}%</b> &nbsp; ⛰ Landslide risk: <b style="color:${riskColor(r.slide)}">${r.slide}%</b></span></div>
       <div><b>${hrs}h ${mins}m</b></div>
       <div>₹${Math.round(r.cost).toLocaleString('en-IN')}</div>
       <div class="${r.warn?'warning':'score'}">${r.score}/100</div>
@@ -290,7 +339,7 @@ function selectRoute(i){
   destMarker=L.circleMarker(r.latlngs[r.latlngs.length-1],{radius:8,color:'#fff',weight:3,fillColor:'#138808',fillOpacity:1}).addTo(map).bindPopup('<b>Destination:</b> '+toLabelG+(r.accurate?`<br>${r.distanceKm.toFixed(0)} km road route`:''));
   map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
   const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
-  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+weightG+' ton(s) from '+fromLabelG+' to '+toLabelG+', the <b>'+r.label+' route</b> ('+r.sub+') is selected. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+Math.round(r.cost).toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+weightG+' ton(s) from '+fromLabelG+' to '+toLabelG+', the <b>'+r.label+' route</b> ('+r.sub+') is selected. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b>, cost <b>₹'+Math.round(r.cost).toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'. Rainfall risk <b>'+r.rain+'%</b>, landslide risk <b>'+r.slide+'%</b> along this corridor.';
 }
 computeRoutes('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur'],2);
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}

@@ -54,12 +54,14 @@
     <div class="card" id="shipments">
       <div class="head"><h2>Create Shipment</h2><span class="pill">AI assisted</span></div>
       <div class="formgrid">
-        <div class="field"><label>ORIGIN</label><select id="from">
+        <div class="field"><label>ORIGIN STATE</label><select id="fromState" onchange="populateDistricts('fromState','fromDistrict')">
           <option>Andaman and Nicobar Islands</option><option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option selected>Assam</option><option>Bihar</option><option>Chandigarh</option><option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Puducherry</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
         </select></div>
-        <div class="field"><label>DESTINATION</label><select id="to">
+        <div class="field"><label>ORIGIN DISTRICT</label><select id="fromDistrict"></select></div>
+        <div class="field"><label>DESTINATION STATE</label><select id="toState" onchange="populateDistricts('toState','toDistrict')">
           <option>Andaman and Nicobar Islands</option><option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chandigarh</option><option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option><option>Maharashtra</option><option selected>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Puducherry</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
         </select></div>
+        <div class="field"><label>DESTINATION DISTRICT</label><select id="toDistrict"></select></div>
         <div class="field"><label>CARGO WEIGHT</label><input id="weight" type="number" value="2" min="0.1"></div>
         <div class="field"><label>VEHICLE</label><select><option>Medium Truck</option><option>Light Commercial Vehicle</option><option>Heavy Truck</option></select></div>
         <div class="field full"><label>CARGO TYPE</label><select><option>General Goods</option><option>Perishable</option><option>Medical Supplies</option><option>Electronics</option></select></div>
@@ -139,10 +141,73 @@ const CITIES={
 const map=L.map('map',{zoomControl:true,scrollWheelZoom:false}).setView([22.5,80.5],4.4);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:14}).addTo(map);
 Object.entries(CITIES).forEach(([name,ll])=>{L.circleMarker(ll,{radius:5,color:'#9aa5b1',weight:2,fillColor:'#fff',fillOpacity:1}).addTo(map).bindTooltip(name,{direction:'top'})});
+const DISTRICTS={
+  "Andhra Pradesh":["Alluri Sitharama Raju","Anakapalli","Ananthapuramu","Annamayya","Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari","Eluru","Guntur","Kakinada","Krishna","Kurnool","Nandyal","NTR","Palnadu","Parvathipuram Manyam","Prakasam","Srikakulam","Sri Potti Sriramulu Nellore","Sri Sathya Sai","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR"],
+  "Arunachal Pradesh":["Anjaw","Changlang","East Kameng","East Siang","Itanagar Capital Complex","Kamle","Kra Daadi","Kurung Kumey","Lepa Rada","Lohit","Longding","Lower Dibang Valley","Lower Siang","Lower Subansiri","Namsai","Pakke-Kessang","Papum Pare","Shi Yomi","Siang","Tawang","Tirap","Upper Dibang Valley","Upper Siang","Upper Subansiri","West Kameng","West Siang"],
+  "Assam":["Baksa","Barpeta","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Dima Hasao","Goalpara","Golaghat","Guwahati (Kamrup Metropolitan)","Hailakandi","Jorhat","Kamrup","Karbi Anglong","Karimganj","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara Mankachar","Tinsukia","Udalguri","West Karbi Anglong"],
+  "Bihar":["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","East Champaran","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran"],
+  "Chhattisgarh":["Balod","Baloda Bazar","Balrampur-Ramanujganj","Bastar","Bemetara","Bijapur","Bilaspur","Dantewada","Dhamtari","Durg","Gariaband","Gaurela-Pendra-Marwahi","Janjgir-Champa","Jashpur","Kabirdham","Kanker","Khairagarh-Chhuikhadan-Gandai","Kondagaon","Korba","Korea","Mahasamund","Manendragarh-Chirmiri-Bharatpur","Mohla-Manpur-Ambagarh Chowki","Mungeli","Narayanpur","Raigarh","Raipur","Rajnandgaon","Sarangarh-Bilaigarh","Shakti","Sukma","Surajpur","Surguja"],
+  "Goa":["North Goa","South Goa"],
+  "Gujarat":["Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhumi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad"],
+  "Haryana":["Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad","Gurugram","Hisar","Jhajjar","Jind","Kaithal","Karnal","Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula","Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"],
+  "Himachal Pradesh":["Bilaspur","Chamba","Hamirpur","Kangra","Kinnaur","Kullu","Lahaul and Spiti","Mandi","Shimla","Sirmaur","Solan","Una"],
+  "Jharkhand":["Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih","Godda","Gumla","Hazaribag","Jamtara","Khunti","Koderma","Latehar","Lohardaga","Pakur","Palamu","Ramgarh","Ranchi","Sahibganj","Seraikela-Kharsawan","Simdega","West Singhbhum"],
+  "Karnataka":["Bagalakote","Ballari","Belagavi","Bengaluru Rural","Bengaluru Urban","Bidar","Chamarajanagara","Chikkaballapura","Chikkamagaluru","Chitradurga","Dakshina Kannada","Davanagere","Dharwada","Gadaga","Kalaburagi","Hassan","Haveri","Kodagu","Kolar","Koppala","Mandya","Mysuru","Raichuru","Ramanagara","Shivamogga","Tumakuru","Udupi","Uttara Kannada","Vijayanagara","Vijayapura","Yadgiri"],
+  "Kerala":["Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod","Kollam","Kottayam","Kozhikode","Malappuram","Palakkad","Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"],
+  "Madhya Pradesh":["Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Narmadapuram (Hoshangabad)","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Niwari","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umaria","Vidisha"],
+  "Maharashtra":["Ahmednagar","Akola","Amravati","Beed","Bhandara","Buldhana","Chandrapur","Osmanabad (Dharashiv)","Dhule","Gadchiroli","Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban","Nanded","Nandurbar","Nagpur","Nashik","Palghar","Parbhani","Pune","Raigad","Ratnagiri","Chhatrapati Sambhajinagar (Aurangabad)","Sangli","Satara","Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"],
+  "Manipur":["Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West","Jiribam","Kakching","Kamjong","Kangpokpi","Noney","Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"],
+  "Meghalaya":["East Garo Hills","East Khasi Hills","East Jaintia Hills","Eastern West Khasi Hills","North Garo Hills","Ri Bhoi","South Garo Hills","South West Garo Hills","South West Khasi Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"],
+  "Mizoram":["Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib","Lawngtlai","Lunglei","Mamit","Saiha","Saitual","Serchhip"],
+  "Nagaland":["Chumoukedima","Dimapur","Kiphire","Kohima","Longleng","Mokokchung","Mon","Niuland","Noklak","Peren","Phek","Shamator","Tseminyu","Tuensang","Wokha","Zunheboto"],
+  "Odisha":["Angul","Boudh","Bhadrak","Balangir","Bargarh","Balasore","Cuttack","Debagarh","Dhenkanal","Ganjam","Gajapati","Jharsuguda","Jajpur","Jagatsinghpur","Khordha","Kendujhar","Kalahandi","Kandhamal","Koraput","Kendrapara","Malkangiri","Mayurbhanj","Nabarangpur","Nuapada","Nayagarh","Puri","Rayagada","Sambalpur","Subarnapur","Sundargarh"],
+  "Punjab":["Amritsar","Barnala","Bathinda","Firozpur","Faridkot","Fatehgarh Sahib","Fazilka","Gurdaspur","Hoshiarpur","Jalandhar","Kapurthala","Ludhiana","Malerkotla","Mansa","Moga","Sri Muktsar Sahib","Pathankot","Patiala","Rupnagar","Sahibzada Ajit Singh Nagar (Mohali)","Sangrur","Shahid Bhagat Singh Nagar (Nawanshahr)","Tarn Taran"],
+  "Rajasthan":["Ajmer","Alwar","Bikaner","Barmer","Banswara","Bharatpur","Baran","Bundi","Bhilwara","Churu","Chittorgarh","Dausa","Dholpur","Dungarpur","Sri Ganganagar","Hanumangarh","Jhunjhunu","Jalore","Jodhpur","Jaipur","Jaisalmer","Jhalawar","Karauli","Kota","Nagaur","Pali","Pratapgarh","Rajsamand","Sikar","Sawai Madhopur","Sirohi","Tonk","Udaipur"],
+  "Sikkim":["East Sikkim","North Sikkim","Pakyong","Soreng","South Sikkim","West Sikkim"],
+  "Tamil Nadu":["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai","Nagapattinam","Nilgiris","Namakkal","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi","Tiruppur","Tiruchirappalli","Theni","Tirunelveli","Thanjavur","Thoothukudi","Tirupattur","Tiruvallur","Tiruvarur","Tiruvannamalai","Vellore","Viluppuram","Virudhunagar"],
+  "Telangana":["Adilabad","Bhadradri Kothagudem","Hanamkonda","Hyderabad","Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal","Kamareddy","Karimnagar","Khammam","Kumuram Bheem Asifabad","Mahabubabad","Mahbubnagar","Mancherial","Medak","Medchal-Malkajgiri","Mulugu","Nalgonda","Narayanpet","Nagarkurnool","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Ranga Reddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal","Yadadri Bhuvanagiri"],
+  "Tripura":["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"],
+  "Uttar Pradesh":["Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar","Kasganj","Kaushambi","Kushinagar","Lakhimpur Kheri","Lalitpur","Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Raebareli","Rampur","Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"],
+  "Uttarakhand":["Almora","Bageshwar","Chamoli","Champawat","Dehradun","Haridwar","Nainital","Pauri Garhwal","Pithoragarh","Rudraprayag","Tehri Garhwal","Udham Singh Nagar","Uttarkashi"],
+  "West Bengal":["Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur","Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram","Kalimpong","Kolkata","Maldah","Murshidabad","Nadia","North 24 Parganas","Paschim Bardhaman","Paschim Medinipur","Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas","Uttar Dinajpur"],
+  "Andaman and Nicobar Islands":["Nicobar","North and Middle Andaman","South Andaman"],
+  "Chandigarh":["Chandigarh"],
+  "Dadra and Nagar Haveli and Daman and Diu":["Daman","Diu","Dadra and Nagar Haveli"],
+  "Delhi":["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"],
+  "Jammu and Kashmir":["Anantnag","Bandipore","Baramulla","Budgam","Doda","Ganderbal","Jammu","Kathua","Kishtwar","Kulgam","Kupwara","Poonch","Pulwama","Rajouri","Ramban","Reasi","Samba","Shopian","Srinagar","Udhampur"],
+  "Ladakh":["Kargil","Leh"],
+  "Lakshadweep":["Lakshadweep"],
+  "Puducherry":["Karaikal","Mahe","Puducherry","Yanam"]
+};
+function populateDistricts(stateSelectId,districtSelectId){
+  const state=document.getElementById(stateSelectId).value;
+  const list=DISTRICTS[state]||[];
+  const sel=document.getElementById(districtSelectId);
+  sel.innerHTML=list.map(d=>`<option>${d}</option>`).join('');
+}
+populateDistricts('fromState','fromDistrict');
+populateDistricts('toState','toDistrict');
+const geoCache={};
+async function geocodeDistrict(district,state){
+  const key=district+'|'+state;
+  if(geoCache[key])return geoCache[key];
+  try{
+    const url=`https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=in&q=${encodeURIComponent(district+', '+state+', India')}`;
+    const res=await fetch(url,{headers:{'Accept':'application/json'}});
+    const data=await res.json();
+    if(data&&data[0]){
+      const ll=[parseFloat(data[0].lat),parseFloat(data[0].lon)];
+      geoCache[key]=ll;
+      return ll;
+    }
+  }catch(e){/* geocoding unavailable - fall back to state centroid */}
+  const fallback=CITIES[state]||[22.5,80.5];
+  geoCache[key]=fallback;
+  return fallback;
+}
 let originMarker,destMarker,routeLine;
 function haversineKm(a,b){const R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,x=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
-async function drawRoute(fromName,toName){
-  const from=CITIES[fromName],to=CITIES[toName];
+async function drawRoute(fromName,toName,from,to){
   if(!from||!to)return;
   if(routeLine)map.removeLayer(routeLine);
   if(originMarker)map.removeLayer(originMarker);
@@ -166,16 +231,21 @@ async function drawRoute(fromName,toName){
   map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
   return {distanceKm,durationHr,accurate};
 }
-drawRoute('Assam','Manipur');
+drawRoute('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur']);
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
 async function optimize(){
-  const f=document.getElementById('from').value,t=document.getElementById('to').value,w=document.getElementById('weight').value;
-  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> Calculating optimal route…';
+  const fState=document.getElementById('fromState').value,fDist=document.getElementById('fromDistrict').value;
+  const tState=document.getElementById('toState').value,tDist=document.getElementById('toDistrict').value;
+  const w=document.getElementById('weight').value;
+  const fLabel=fDist+', '+fState,tLabel=tDist+', '+tState;
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> Locating '+fLabel+' and '+tLabel+'…';
+  toast('Locating districts…');
+  const [from,to]=await Promise.all([geocodeDistrict(fDist,fState),geocodeDistrict(tDist,tState)]);
   toast('Calculating road-accurate route…');
-  const r=await drawRoute(f,t);
+  const r=await drawRoute(fLabel,tLabel,from,to);
   const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
   const cost=Math.round(r.distanceKm*(120+parseFloat(w||1)*35));
-  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+w+' ton(s) from '+f+' to '+t+', use the <b>Balanced Accessibility Route</b>. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+cost.toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+w+' ton(s) from '+fLabel+' to '+tLabel+', use the <b>Balanced Accessibility Route</b>. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+cost.toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
   toast(r.accurate?'Route optimized using live road data':'Route optimized (estimated — offline)');
 }
 function askAI(){const q=document.getElementById('question').value.trim();const a=document.getElementById('answer');if(!q){a.textContent='Please enter a logistics question.';a.style.display='block';return}a.innerHTML='<b>AI:</b> Based on the prototype logistics model, the balanced route is recommended because it offers the best trade-off between estimated travel time, cost, accessibility and disruption risk. <br><br><b>Demo note:</b> Live map, weather and government data APIs can be connected in the production version.';a.style.display='block'}

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{--navy:#0a2a52;--blue:#0a2a52;--cyan:#ff9933;--green:#138808;--orange:#ff9933;--red:#c0392b;--bg:#f7f7f4;--card:#fff;--text:#1a1f29;--muted:#5c6b7a;--line:#e3e1d9;--saffron:#ff9933;--ashoka:#0b3d91}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{display:flex;min-height:100vh}.side{position:fixed;width:245px;height:100vh;background:var(--navy);color:#dce5f7;padding:22px 16px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:5px 10px 28px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}.nav a{display:block;color:#aeb9cf;text-decoration:none;padding:12px;border-radius:10px;margin:5px 0}.nav a.active,.nav a:hover{background:#12345f;color:#fff;border-left:3px solid var(--saffron)}.side-note{position:absolute;left:16px;right:16px;bottom:20px;background:#182440;border-radius:12px;padding:12px;color:#9eabc4;font-size:11px;line-height:1.5}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 34px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 5px;font-size:25px}.top p{margin:0;color:var(--muted);font-size:13px}.user{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #1423460a}.stat{padding:17px}.label{color:var(--muted);font-size:12px}.value{font-size:26px;font-weight:800;margin:5px 0}.trend{font-size:11px;color:var(--green)}.grid{display:grid;grid-template-columns:1.65fr 1fr;gap:18px;margin-top:18px}.card{padding:18px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.head h2{font-size:16px;margin:0}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff2e0;color:var(--ashoka);border:1px solid #ffe0b3}.map{height:345px;border-radius:12px;position:relative;overflow:hidden;background:#e9ecef}.map .leaflet-container{height:100%;width:100%;font:14px Inter,system-ui,sans-serif;border-radius:12px}.leaflet-popup-content{font-size:12px}.leaflet-popup-content b{color:var(--navy)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:11px;color:var(--muted)}input,select{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}.full{grid-column:1/-1}.primary{margin-top:12px;width:100%;border:0;border-radius:9px;padding:11px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.recommend{margin-top:14px;background:#f1fbf8;border:1px solid #c9efe1;padding:12px;border-radius:10px;font-size:12px}.recommend strong{color:var(--green)}.routes{margin-top:18px}.routeitem{display:grid;grid-template-columns:1fr 85px 85px 85px;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:12px}.routeitem:last-child{border:0}.routeitem b{font-size:13px}.score{font-weight:800;color:var(--green)}.warning{color:var(--orange)}.activity{display:grid;gap:11px}.act{display:flex;gap:10px;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex:none}.chat{margin-top:18px}.chatbox{display:flex;gap:8px}.chatbox input{flex:1}.ask{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 15px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:10px;background:#f5f8ff;border:1px solid #dfe7ff;padding:10px;border-radius:9px;font-size:12px;line-height:1.5}.toast{position:fixed;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 15px;border-radius:10px;display:none;font-size:12px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{display:flex;min-height:100vh}.side{position:fixed;width:245px;height:100vh;background:var(--navy);color:#dce5f7;padding:22px 16px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:5px 10px 28px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}.nav a{display:block;color:#aeb9cf;text-decoration:none;padding:12px;border-radius:10px;margin:5px 0}.nav a.active,.nav a:hover{background:#12345f;color:#fff;border-left:3px solid var(--saffron)}.side-note{position:absolute;left:16px;right:16px;bottom:20px;background:#182440;border-radius:12px;padding:12px;color:#9eabc4;font-size:11px;line-height:1.5}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 34px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 5px;font-size:25px}.top p{margin:0;color:var(--muted);font-size:13px}.user{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #1423460a}.stat{padding:17px}.label{color:var(--muted);font-size:12px}.value{font-size:26px;font-weight:800;margin:5px 0}.trend{font-size:11px;color:var(--green)}.grid{display:grid;grid-template-columns:1.65fr 1fr;gap:18px;margin-top:18px}.card{padding:18px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.head h2{font-size:16px;margin:0}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff2e0;color:var(--ashoka);border:1px solid #ffe0b3}.map{height:345px;border-radius:12px;position:relative;overflow:hidden;background:#e9ecef}.map .leaflet-container{height:100%;width:100%;font:14px Inter,system-ui,sans-serif;border-radius:12px}.leaflet-popup-content{font-size:12px}.leaflet-popup-content b{color:var(--navy)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:11px;color:var(--muted)}input,select{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}.full{grid-column:1/-1}.primary{margin-top:12px;width:100%;border:0;border-radius:9px;padding:11px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.recommend{margin-top:14px;background:#f1fbf8;border:1px solid #c9efe1;padding:12px;border-radius:10px;font-size:12px}.recommend strong{color:var(--green)}.routes{margin-top:18px}.routeitem{display:grid;grid-template-columns:1fr 85px 85px 85px;gap:12px;align-items:center;padding:13px 8px;border-bottom:1px solid var(--line);font-size:12px;cursor:pointer;border-radius:8px;transition:background .15s}.routeitem:hover{background:#f7f9fc}.routeitem.active{background:#eef4ff;border:1px solid #cddcfb}.routeitem:last-child{border-bottom:0}.routeitem b{font-size:13px}.score{font-weight:800;color:var(--green)}.warning{color:var(--orange)}.activity{display:grid;gap:11px}.act{display:flex;gap:10px;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex:none}.chat{margin-top:18px}.chatbox{display:flex;gap:8px}.chatbox input{flex:1}.ask{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 15px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:10px;background:#f5f8ff;border:1px solid #dfe7ff;padding:10px;border-radius:9px;font-size:12px;line-height:1.5}.toast{position:fixed;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 15px;border-radius:10px;display:none;font-size:12px}
 .tricolor-strip{position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ff9933 0 33%,#ffffff 33% 66%,#138808 66% 100%);z-index:50}.app{padding-top:4px}.side{padding-top:26px}
 @media(max-width:900px){.side{width:70px}.brand span,.nav a span,.side-note{display:none}.main{margin-left:70px;width:calc(100% - 70px);padding:20px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}@media(max-width:600px){.stats{grid-template-columns:1fr}.main{padding:14px}.routeitem{grid-template-columns:1fr 70px}.routeitem div:nth-child(3),.routeitem div:nth-child(4){display:none}.top{align-items:flex-start;gap:10px}}
 </style>
@@ -44,11 +44,7 @@
     <div class="card">
       <div class="head"><h2>AI Route Intelligence</h2><span class="pill">Live simulation</span></div>
       <div class="map" id="map"></div>
-      <div class="routes" id="routes">
-        <div class="routeitem"><div><b>Recommended • NH-2 Corridor</b><br><span class="muted">Balanced time + accessibility</span></div><div><b>8h 20m</b></div><div>₹18,400</div><div class="score">92/100</div></div>
-        <div class="routeitem"><div><b>Alternative • Scenic Corridor</b><br><span class="muted">Lower congestion</span></div><div><b>9h 05m</b></div><div>₹16,900</div><div class="score">87/100</div></div>
-        <div class="routeitem"><div><b>Fastest • Express Corridor</b><br><span class="muted warning">Accessibility alert</span></div><div><b>7h 35m</b></div><div>₹20,700</div><div class="warning">78/100</div></div>
-      </div>
+      <div class="routes" id="routes"></div>
     </div>
 
     <div class="card" id="shipments">
@@ -207,31 +203,96 @@ async function geocodeDistrict(district,state){
 }
 let originMarker,destMarker,routeLine;
 function haversineKm(a,b){const R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,x=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
-async function drawRoute(fromName,toName,from,to){
-  if(!from||!to)return;
+function offsetWaypoint(from,to){
+  const dLat=to[0]-from[0],dLon=to[1]-from[1];
+  const mag=Math.hypot(dLat,dLon)||0.001;
+  const perpLat=-dLon/mag,perpLon=dLat/mag;
+  const scale=Math.min(Math.max(mag*0.22,0.08),1.1);
+  const mid=[(from[0]+to[0])/2+perpLat*scale,(from[1]+to[1])/2+perpLon*scale];
+  return mid;
+}
+async function osrmRoute(coords){
+  const path=coords.map(c=>c[1]+','+c[0]).join(';');
+  const url=`https://router.project-osrm.org/route/v1/driving/${path}?overview=full&geometries=geojson`;
+  const res=await fetch(url);
+  const data=await res.json();
+  if(data.code==='Ok'&&data.routes&&data.routes[0]){
+    return {
+      latlngs:data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]),
+      distanceKm:data.routes[0].distance/1000,
+      durationHr:data.routes[0].duration/3600,
+      accurate:true
+    };
+  }
+  throw new Error('no route');
+}
+async function estimateFallback(from,to){
+  const distanceKm=haversineKm(from,to)*1.35;
+  return {latlngs:[from,to],distanceKm,durationHr:distanceKm/45,accurate:false};
+}
+let currentRoutes=[],currentIdx=0,fromLabelG='',toLabelG='',weightG=1;
+async function computeRoutes(fromName,toName,from,to,weight){
+  fromLabelG=fromName;toLabelG=toName;weightG=weight;
+  let base;
+  try{ base=await osrmRoute([from,to]); }
+  catch(e){ base=await estimateFallback(from,to); }
+
+  let scenic=base;
+  if(base.accurate){
+    try{
+      const via=offsetWaypoint(from,to);
+      scenic=await osrmRoute([from,via,to]);
+      if(scenic.distanceKm<base.distanceKm) scenic=base; // via-point didn't create a real detour, reuse base
+    }catch(e){ scenic=base; }
+  }
+
+  const costPerKm=(w)=>120+parseFloat(w||1)*35;
+  const cost=(distanceKm,w)=>Math.round(distanceKm*costPerKm(w));
+
+  currentRoutes=[
+    {label:'Recommended',sub:'Balanced • NH Corridor'+(base.accurate?'':' (offline estimate)'),
+     latlngs:base.latlngs,distanceKm:base.distanceKm,durationHr:base.durationHr,
+     cost:cost(base.distanceKm,weight),score:92,warn:false,accurate:base.accurate},
+    {label:'Alternative',sub:scenic===base?'Lower congestion (est.)':'Lower congestion • Scenic detour',
+     latlngs:scenic.latlngs,distanceKm:scenic.distanceKm*(scenic===base?1.08:1),durationHr:scenic.durationHr*(scenic===base?1.12:1),
+     cost:cost(scenic.distanceKm*(scenic===base?1.08:1),weight)*0.93,score:87,warn:false,accurate:scenic.accurate},
+    {label:'Fastest',sub:'Accessibility alert',
+     latlngs:base.latlngs,distanceKm:base.distanceKm*0.94,durationHr:base.durationHr*0.85,
+     cost:cost(base.distanceKm*0.94,weight)*1.15,score:78,warn:true,accurate:base.accurate}
+  ];
+  renderRouteList();
+  selectRoute(0);
+  return currentRoutes[0];
+}
+function renderRouteList(){
+  const el=document.getElementById('routes');
+  el.innerHTML=currentRoutes.map((r,i)=>{
+    const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
+    return `<div class="routeitem${i===currentIdx?' active':''}" onclick="selectRoute(${i})">
+      <div><b>${r.label} • ${fromLabelG.split(',')[0]} → ${toLabelG.split(',')[0]}</b><br><span class="muted${r.warn?' warning':''}">${r.sub}</span></div>
+      <div><b>${hrs}h ${mins}m</b></div>
+      <div>₹${Math.round(r.cost).toLocaleString('en-IN')}</div>
+      <div class="${r.warn?'warning':'score'}">${r.score}/100</div>
+    </div>`;
+  }).join('');
+}
+function selectRoute(i){
+  currentIdx=i;
+  const r=currentRoutes[i];
+  if(!r)return;
+  document.querySelectorAll('.routeitem').forEach((el,idx)=>el.classList.toggle('active',idx===i));
   if(routeLine)map.removeLayer(routeLine);
   if(originMarker)map.removeLayer(originMarker);
   if(destMarker)map.removeLayer(destMarker);
   const saffron=getComputedStyle(document.documentElement).getPropertyValue('--saffron').trim()||'#ff9933';
-  let latlngs=[from,to],distanceKm=haversineKm(from,to)*1.35,durationHr=distanceKm/45,accurate=false;
-  try{
-    const url=`https://router.project-osrm.org/route/v1/driving/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
-    const res=await fetch(url);
-    const data=await res.json();
-    if(data.code==='Ok'&&data.routes&&data.routes[0]){
-      latlngs=data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
-      distanceKm=data.routes[0].distance/1000;
-      durationHr=data.routes[0].duration/3600;
-      accurate=true;
-    }
-  }catch(e){/* offline or blocked - fall back to straight-line estimate below */}
-  routeLine=L.polyline(latlngs,{color:saffron,weight:4,opacity:0.9}).addTo(map);
-  originMarker=L.circleMarker(from,{radius:8,color:'#fff',weight:3,fillColor:'#ff9933',fillOpacity:1}).addTo(map).bindPopup('<b>Origin:</b> '+fromName);
-  destMarker=L.circleMarker(to,{radius:8,color:'#fff',weight:3,fillColor:'#138808',fillOpacity:1}).addTo(map).bindPopup('<b>Destination:</b> '+toName+(accurate?`<br>${distanceKm.toFixed(0)} km road route`:''));
+  routeLine=L.polyline(r.latlngs,{color:saffron,weight:4,opacity:0.9}).addTo(map);
+  originMarker=L.circleMarker(r.latlngs[0],{radius:8,color:'#fff',weight:3,fillColor:'#ff9933',fillOpacity:1}).addTo(map).bindPopup('<b>Origin:</b> '+fromLabelG);
+  destMarker=L.circleMarker(r.latlngs[r.latlngs.length-1],{radius:8,color:'#fff',weight:3,fillColor:'#138808',fillOpacity:1}).addTo(map).bindPopup('<b>Destination:</b> '+toLabelG+(r.accurate?`<br>${r.distanceKm.toFixed(0)} km road route`:''));
   map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
-  return {distanceKm,durationHr,accurate};
+  const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+weightG+' ton(s) from '+fromLabelG+' to '+toLabelG+', the <b>'+r.label+' route</b> ('+r.sub+') is selected. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+Math.round(r.cost).toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
 }
-drawRoute('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur']);
+computeRoutes('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur'],2);
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
 async function optimize(){
   const fState=document.getElementById('fromState').value,fDist=document.getElementById('fromDistrict').value;
@@ -241,12 +302,9 @@ async function optimize(){
   document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> Locating '+fLabel+' and '+tLabel+'…';
   toast('Locating districts…');
   const [from,to]=await Promise.all([geocodeDistrict(fDist,fState),geocodeDistrict(tDist,tState)]);
-  toast('Calculating road-accurate route…');
-  const r=await drawRoute(fLabel,tLabel,from,to);
-  const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
-  const cost=Math.round(r.distanceKm*(120+parseFloat(w||1)*35));
-  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+w+' ton(s) from '+fLabel+' to '+tLabel+', use the <b>Balanced Accessibility Route</b>. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b> and estimated cost of <b>₹'+cost.toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'.';
-  toast(r.accurate?'Route optimized using live road data':'Route optimized (estimated — offline)');
+  toast('Calculating road-accurate routes…');
+  const r=await computeRoutes(fLabel,tLabel,from,to,w);
+  toast(r.accurate?'Routes optimized using live road data':'Routes optimized (estimated — offline)');
 }
 function askAI(){const q=document.getElementById('question').value.trim();const a=document.getElementById('answer');if(!q){a.textContent='Please enter a logistics question.';a.style.display='block';return}a.innerHTML='<b>AI:</b> Based on the prototype logistics model, the balanced route is recommended because it offers the best trade-off between estimated travel time, cost, accessibility and disruption risk. <br><br><b>Demo note:</b> Live map, weather and government data APIs can be connected in the production version.';a.style.display='block'}
 </script>

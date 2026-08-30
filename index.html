@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{--navy:#0a2a52;--blue:#0a2a52;--cyan:#ff9933;--green:#138808;--orange:#ff9933;--red:#c0392b;--bg:#f7f7f4;--card:#fff;--text:#1a1f29;--muted:#5c6b7a;--line:#e3e1d9;--saffron:#ff9933;--ashoka:#0b3d91}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{display:flex;min-height:100vh}.side{position:fixed;width:245px;height:100vh;background:var(--navy);color:#dce5f7;padding:22px 16px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:5px 10px 28px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}.nav a{display:block;color:#aeb9cf;text-decoration:none;padding:12px;border-radius:10px;margin:5px 0}.nav a.active,.nav a:hover{background:#12345f;color:#fff;border-left:3px solid var(--saffron)}.side-note{position:absolute;left:16px;right:16px;bottom:20px;background:#182440;border-radius:12px;padding:12px;color:#9eabc4;font-size:11px;line-height:1.5}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 34px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 5px;font-size:25px}.top p{margin:0;color:var(--muted);font-size:13px}.user{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #1423460a}.stat{padding:17px}.label{color:var(--muted);font-size:12px}.value{font-size:26px;font-weight:800;margin:5px 0}.trend{font-size:11px;color:var(--green)}.grid{display:grid;grid-template-columns:1.65fr 1fr;gap:18px;margin-top:18px}.card{padding:18px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.head h2{font-size:16px;margin:0}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff2e0;color:var(--ashoka);border:1px solid #ffe0b3}.map{height:345px;border-radius:12px;position:relative;overflow:hidden;background:#e9ecef}.map .leaflet-container{height:100%;width:100%;font:14px Inter,system-ui,sans-serif;border-radius:12px}.leaflet-popup-content{font-size:12px}.leaflet-popup-content b{color:var(--navy)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:11px;color:var(--muted)}input,select{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}.full{grid-column:1/-1}.primary{margin-top:12px;width:100%;border:0;border-radius:9px;padding:11px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.recommend{margin-top:14px;background:#f1fbf8;border:1px solid #c9efe1;padding:12px;border-radius:10px;font-size:12px}.recommend strong{color:var(--green)}.routes{margin-top:18px}.routeitem{display:grid;grid-template-columns:1fr 85px 85px 85px;gap:12px;align-items:center;padding:13px 8px;border-bottom:1px solid var(--line);font-size:12px;cursor:pointer;border-radius:8px;transition:background .15s}.routeitem:hover{background:#f7f9fc}.routeitem.active{background:#eef4ff;border:1px solid #cddcfb}.routeitem:last-child{border-bottom:0}.routeitem b{font-size:13px}.score{font-weight:800;color:var(--green)}.warning{color:var(--orange)}.activity{display:grid;gap:11px}.act{display:flex;gap:10px;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex:none}.chat{margin-top:18px}.chatbox{display:flex;gap:8px}.chatbox input{flex:1}.ask{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 15px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:10px;background:#f5f8ff;border:1px solid #dfe7ff;padding:10px;border-radius:9px;font-size:12px;line-height:1.5}.toast{position:fixed;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 15px;border-radius:10px;display:none;font-size:12px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{display:flex;min-height:100vh}.side{position:fixed;width:245px;height:100vh;background:var(--navy);color:#dce5f7;padding:22px 16px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:5px 10px 28px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}.nav a{display:block;color:#aeb9cf;text-decoration:none;padding:12px;border-radius:10px;margin:5px 0}.nav a.active,.nav a:hover{background:#12345f;color:#fff;border-left:3px solid var(--saffron)}.side-note{position:absolute;left:16px;right:16px;bottom:20px;background:#182440;border-radius:12px;padding:12px;color:#9eabc4;font-size:11px;line-height:1.5}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 34px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 5px;font-size:25px}.top p{margin:0;color:var(--muted);font-size:13px}.user{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #1423460a}.stat{padding:17px}.label{color:var(--muted);font-size:12px}.value{font-size:26px;font-weight:800;margin:5px 0}.trend{font-size:11px;color:var(--green)}.grid{display:grid;grid-template-columns:1.65fr 1fr;gap:18px;margin-top:18px}.card{padding:18px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.head h2{font-size:16px;margin:0}.pill{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff2e0;color:var(--ashoka);border:1px solid #ffe0b3}.map{height:345px;border-radius:12px;position:relative;overflow:hidden;background:#e9ecef}.map .leaflet-container{height:100%;width:100%;font:14px Inter,system-ui,sans-serif;border-radius:12px}.leaflet-popup-content{font-size:12px}.leaflet-popup-content b{color:var(--navy)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:11px;color:var(--muted)}input,select,textarea{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);font-family:inherit}textarea{width:100%;resize:vertical}.locrow{display:flex;gap:8px}.locrow input{flex:1}.locbtn{border:0;border-radius:8px;padding:0 14px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer;white-space:nowrap}.coordshint{font-size:11px;color:var(--muted);margin-top:4px;min-height:14px}.photoPreview img{max-width:170px;border-radius:8px;margin-top:8px;display:block}.reportphoto img{max-width:160px;border-radius:8px;margin-top:6px;display:block}.sevtag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px}.full{grid-column:1/-1}.primary{margin-top:12px;width:100%;border:0;border-radius:9px;padding:11px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.recommend{margin-top:14px;background:#f1fbf8;border:1px solid #c9efe1;padding:12px;border-radius:10px;font-size:12px}.recommend strong{color:var(--green)}.routes{margin-top:18px}.routeitem{display:grid;grid-template-columns:1fr 85px 85px 85px;gap:12px;align-items:center;padding:13px 8px;border-bottom:1px solid var(--line);font-size:12px;cursor:pointer;border-radius:8px;transition:background .15s}.routeitem:hover{background:#f7f9fc}.routeitem.active{background:#eef4ff;border:1px solid #cddcfb}.routeitem:last-child{border-bottom:0}.routeitem b{font-size:13px}.score{font-weight:800;color:var(--green)}.warning{color:var(--orange)}.activity{display:grid;gap:11px}.act{display:flex;gap:10px;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex:none}.chat{margin-top:18px}.chatbox{display:flex;gap:8px}.chatbox input{flex:1}.ask{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 15px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:10px;background:#f5f8ff;border:1px solid #dfe7ff;padding:10px;border-radius:9px;font-size:12px;line-height:1.5}.toast{position:fixed;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 15px;border-radius:10px;display:none;font-size:12px}
 .tricolor-strip{position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ff9933 0 33%,#ffffff 33% 66%,#138808 66% 100%);z-index:50}.app{padding-top:4px}.side{padding-top:26px}
 @media(max-width:900px){.side{width:70px}.brand span,.nav a span,.side-note{display:none}.main{margin-left:70px;width:calc(100% - 70px);padding:20px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}@media(max-width:600px){.stats{grid-template-columns:1fr}.main{padding:14px}.routeitem{grid-template-columns:1fr 70px}.routeitem div:nth-child(3),.routeitem div:nth-child(4){display:none}.top{align-items:flex-start;gap:10px}}
 </style>
@@ -22,6 +22,7 @@
     <a href="#routes"><span>⌁ &nbsp; Route Intelligence</span></a>
     <a href="#shipments"><span>▣ &nbsp; Shipments</span></a>
     <a href="#access"><span>◉ &nbsp; Accessibility</span></a>
+    <a href="#report"><span>⚠ &nbsp; Report Issue</span></a>
     <a href="#assistant"><span>✦ &nbsp; AI Assistant</span></a>
   </nav>
   <div class="side-note"><b>SIH 2026 Prototype</b><br>AI-powered logistics planning for the North Eastern Region.</div>
@@ -83,6 +84,29 @@
         <div class="act"><span class="dot"></span><div><b>Imphal corridor</b><br>Accessibility score updated • 18 min ago</div></div>
         <div class="act"><span class="dot"></span><div><b>Shipment SL-1044</b><br>Delivered successfully • 42 min ago</div></div>
       </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card" id="report">
+      <div class="head"><h2>⚠ Report Road Issue</h2><span class="pill">Driver reporting</span></div>
+      <div class="formgrid">
+        <div class="field"><label>ISSUE TYPE</label><select id="issueType">
+          <option>Landslide</option><option>Waterlogging / Flooding</option><option>Road Blockage</option><option>Bridge Damage</option><option>Pothole / Road Damage</option><option>Accident</option><option>Other</option>
+        </select></div>
+        <div class="field"><label>SEVERITY</label><select id="issueSeverity"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
+        <div class="field full"><label>LOCATION</label>
+          <div class="locrow"><input id="issueLocation" placeholder="e.g. NH-2, 5km before Dimapur"><button type="button" class="locbtn" onclick="useMyLocation()">📍 Use My Location</button></div>
+          <div class="coordshint" id="issueCoords"></div>
+        </div>
+        <div class="field full"><label>DESCRIPTION</label><textarea id="issueDesc" rows="3" placeholder="Describe what you're seeing on the road..."></textarea></div>
+        <div class="field full"><label>PHOTO (OPTIONAL)</label><input id="issuePhoto" type="file" accept="image/*" capture="environment"><div class="photoPreview" id="photoPreview"></div></div>
+      </div>
+      <button class="primary" onclick="submitIssue()">Submit Report</button>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Reported Issues</h2><span class="pill" id="reportCountPill">0 active</span></div>
+      <div class="activity" id="issueList"></div>
     </div>
   </section>
 
@@ -343,6 +367,131 @@ function selectRoute(i){
 }
 computeRoutes('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur'],2);
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
+
+let issueLatLng=null,issueReports=[],issueMarkers=[];
+
+// ============================================================
+// GOOGLE SHEETS CONNECTION
+// Paste your deployed Google Apps Script Web App URL below.
+// See the accompanying SETUP guide for how to create it — it takes ~5 minutes.
+// Leave blank ('') to keep reports local-only (session memory, as before).
+// ============================================================
+const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxvLoyfv-hWEPHWckjV6otWig0T3OkFpqk8un4tDcXxtxTfcvyy3Du_Vsw3dhZJqrdhyw/exec';
+
+document.getElementById('issuePhoto').addEventListener('change',function(){
+  const f=this.files[0],prev=document.getElementById('photoPreview');
+  prev.innerHTML=f?'<img src="'+URL.createObjectURL(f)+'">':'';
+});
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result);
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+function useMyLocation(){
+  const hint=document.getElementById('issueCoords');
+  if(!navigator.geolocation){hint.textContent='Geolocation not supported on this device — please type the location manually.';return}
+  hint.textContent='Getting your current location…';
+  navigator.geolocation.getCurrentPosition(async(pos)=>{
+    issueLatLng=[pos.coords.latitude,pos.coords.longitude];
+    hint.textContent='📍 Location captured: '+issueLatLng[0].toFixed(4)+', '+issueLatLng[1].toFixed(4);
+    try{
+      const url=`https://nominatim.openstreetmap.org/reverse?format=json&lat=${issueLatLng[0]}&lon=${issueLatLng[1]}`;
+      const res=await fetch(url,{headers:{'Accept':'application/json'}});
+      const data=await res.json();
+      if(data&&data.display_name){document.getElementById('issueLocation').value=data.display_name;}
+    }catch(e){/* reverse geocoding unavailable, coordinates still captured */}
+  },()=>{hint.textContent='Could not get your location — please type it in manually.'},{enableHighAccuracy:true,timeout:8000});
+}
+function sevColor(sev){return sev==='High'?'var(--red)':sev==='Medium'?'var(--orange)':'var(--green)'}
+
+async function submitIssue(){
+  const type=document.getElementById('issueType').value;
+  const sev=document.getElementById('issueSeverity').value;
+  const loc=document.getElementById('issueLocation').value.trim();
+  const desc=document.getElementById('issueDesc').value.trim();
+  const fileInput=document.getElementById('issuePhoto');
+  const file=fileInput.files[0];
+  if(!loc){toast('Please add a location before submitting');return}
+
+  const report={id:Date.now(),type,sev,loc,desc,time:new Date(),latlng:issueLatLng,photoUrl:file?URL.createObjectURL(file):null};
+  issueReports.unshift(report);
+  if(report.latlng){
+    const marker=L.circleMarker(report.latlng,{radius:9,color:'#fff',weight:2,fillColor:sev==='High'?'#c0392b':sev==='Medium'?'#ff9933':'#138808',fillOpacity:1}).addTo(map)
+      .bindPopup('<b>⚠ '+type+'</b> ('+sev+' severity)<br>'+loc+(desc?'<br>'+desc:'')+(report.photoUrl?'<br><img src="'+report.photoUrl+'" style="max-width:150px;border-radius:6px;margin-top:5px">':''));
+    issueMarkers.push(marker);
+  }
+  renderIssueList();
+  document.getElementById('issueLocation').value='';
+  document.getElementById('issueDesc').value='';
+  document.getElementById('issueCoords').textContent='';
+  fileInput.value='';
+  document.getElementById('photoPreview').innerHTML='';
+  issueLatLng=null;
+
+  if(SHEET_WEBHOOK_URL && SHEET_WEBHOOK_URL.startsWith('http')){
+    toast('Saving to Google Sheet…');
+    try{
+      const photoBase64=file?await fileToBase64(file):null;
+      await fetch(SHEET_WEBHOOK_URL,{
+        method:'POST',
+        mode:'no-cors', // Apps Script web apps don't return CORS headers; this is a fire-and-forget write
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({
+          id:report.id,type,severity:sev,location:loc,description:desc,
+          lat:report.latlng?report.latlng[0]:'',lng:report.latlng?report.latlng[1]:'',
+          timestamp:report.time.toISOString(),
+          photoBase64:photoBase64||'',photoName:file?file.name:''
+        })
+      });
+      toast('Issue reported and saved to Google Sheet ✅');
+    }catch(e){
+      toast('Reported locally — could not reach Google Sheet (check connection)');
+    }
+  }else{
+    toast(report.latlng?'Issue reported and pinned on the map (local only — Google Sheet not connected)':'Issue reported (local only — Google Sheet not connected)');
+  }
+}
+
+async function loadIssuesFromSheet(){
+  if(!(SHEET_WEBHOOK_URL && SHEET_WEBHOOK_URL.startsWith('http')))return;
+  try{
+    const res=await fetch(SHEET_WEBHOOK_URL+'?action=list');
+    const rows=await res.json();
+    rows.forEach(row=>{
+      const report={
+        id:row.id||Date.now(),type:row.type,sev:row.severity,loc:row.location,desc:row.description,
+        time:row.timestamp?new Date(row.timestamp):new Date(),
+        latlng:(row.lat&&row.lng)?[parseFloat(row.lat),parseFloat(row.lng)]:null,
+        photoUrl:row.photoUrl||null
+      };
+      issueReports.push(report);
+      if(report.latlng){
+        const marker=L.circleMarker(report.latlng,{radius:9,color:'#fff',weight:2,fillColor:report.sev==='High'?'#c0392b':report.sev==='Medium'?'#ff9933':'#138808',fillOpacity:1}).addTo(map)
+          .bindPopup('<b>⚠ '+report.type+'</b> ('+report.sev+' severity)<br>'+report.loc+(report.desc?'<br>'+report.desc:'')+(report.photoUrl?'<br><img src="'+report.photoUrl+'" style="max-width:150px;border-radius:6px;margin-top:5px">':''));
+        issueMarkers.push(marker);
+      }
+    });
+    issueReports.sort((a,b)=>b.time-a.time);
+    renderIssueList();
+  }catch(e){/* Sheet not reachable — page still works with local-only reporting */}
+}
+loadIssuesFromSheet();
+function renderIssueList(){
+  const el=document.getElementById('issueList');
+  document.getElementById('reportCountPill').textContent=issueReports.length+' active';
+  if(issueReports.length===0){el.innerHTML='<div class="act"><span class="dot"></span><div>No issues reported yet. Reports submitted by drivers will show up here and on the map.</div></div>';return}
+  el.innerHTML=issueReports.map(r=>`<div class="act"><span class="dot" style="background:${sevColor(r.sev)}"></span><div>
+    <b>${r.type}</b><span class="sevtag" style="background:${sevColor(r.sev)}22;color:${sevColor(r.sev)}">${r.sev}</span><br>
+    ${r.loc}${r.desc?'<br><span class="muted">'+r.desc+'</span>':''}
+    ${r.photoUrl?'<div class="reportphoto"><img src="'+r.photoUrl+'"></div>':''}
+    <br><span class="muted" style="font-size:11px">${r.time.toLocaleTimeString()}</span>
+  </div></div>`).join('');
+}
+renderIssueList();
+
 async function optimize(){
   const fState=document.getElementById('fromState').value,fDist=document.getElementById('fromDistrict').value;
   const tState=document.getElementById('toState').value,tDist=document.getElementById('toDistrict').value;

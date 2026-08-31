@@ -59,7 +59,16 @@
           <option>Andaman and Nicobar Islands</option><option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chandigarh</option><option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option><option>Maharashtra</option><option selected>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Puducherry</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
         </select></div>
         <div class="field"><label>DESTINATION DISTRICT</label><select id="toDistrict"></select></div>
-        <div class="field"><label>CARGO WEIGHT</label><input id="weight" type="number" value="2" min="0.1"></div>
+        <div class="field"><label>CARGO WEIGHT</label>
+          <div class="locrow">
+            <input id="weight" type="number" value="2" min="0.1" step="0.1">
+            <select id="weightUnit" style="max-width:105px">
+              <option value="ton">Tons</option>
+              <option value="quintal">Quintal</option>
+              <option value="kg">Kg</option>
+            </select>
+          </div>
+        </div>
         <div class="field"><label>VEHICLE</label><select><option>Medium Truck</option><option>Light Commercial Vehicle</option><option>Heavy Truck</option></select></div>
         <div class="field full"><label>CARGO TYPE</label><select><option>General Goods</option><option>Perishable</option><option>Medical Supplies</option><option>Electronics</option></select></div>
       </div>
@@ -298,9 +307,9 @@ function getBaselineRisk(fromLabel,toLabel){
   const a=STATE_RISK[fState]||{rain:40,slide:20},b=STATE_RISK[tState]||{rain:40,slide:20};
   return {rain:(a.rain+b.rain)/2,slide:(a.slide+b.slide)/2};
 }
-let currentRoutes=[],currentIdx=0,fromLabelG='',toLabelG='',weightG=1;
-async function computeRoutes(fromName,toName,from,to,weight){
-  fromLabelG=fromName;toLabelG=toName;weightG=weight;
+let currentRoutes=[],currentIdx=0,fromLabelG='',toLabelG='',weightG=1,weightDisplayG='1 ton(s)';
+async function computeRoutes(fromName,toName,from,to,weightTons,weightDisplay){
+  fromLabelG=fromName;toLabelG=toName;weightG=weightTons;weightDisplayG=weightDisplay||(weightTons+' ton(s)');
   let base;
   try{ base=await osrmRoute([from,to]); }
   catch(e){ base=await estimateFallback(from,to); }
@@ -331,15 +340,15 @@ async function computeRoutes(fromName,toName,from,to,weight){
   currentRoutes=[
     {label:'Safest',sub:(safeRoute===base?'Major highway (estimate)':'Major highway detour')+' • lower weather exposure'+(base.accurate?'':' (offline estimate)'),
      latlngs:safeRoute.latlngs,distanceKm:safeRoute.distanceKm,durationHr:safeRoute.durationHr*1.05,
-     cost:cost(safeRoute.distanceKm,weight),score:94,warn:false,accurate:safeRoute.accurate,
+     cost:cost(safeRoute.distanceKm,weightTons),score:94,warn:false,accurate:safeRoute.accurate,
      rain:clamp(baseline.rain*0.55),slide:clamp(baseline.slide*0.4)},
     {label:'Fastest',sub:'Most direct road path • higher speed, slightly less caution',
      latlngs:base.latlngs,distanceKm:base.distanceKm*0.94,durationHr:base.durationHr*0.85,
-     cost:cost(base.distanceKm*0.94,weight)*1.15,score:81,warn:false,accurate:base.accurate,
+     cost:cost(base.distanceKm*0.94,weightTons)*1.15,score:81,warn:false,accurate:base.accurate,
      rain:clamp(baseline.rain*0.8),slide:clamp(baseline.slide*0.7)},
     {label:'Riskier',sub:(riskyRoute===base?'Shortcut (estimate)':'Hill shortcut / bypass')+' • rainfall & landslide alert',
      latlngs:riskyRoute.latlngs,distanceKm:riskyRoute.distanceKm*0.9,durationHr:riskyRoute.durationHr*0.8,
-     cost:cost(riskyRoute.distanceKm*0.9,weight)*0.85,score:60,warn:true,accurate:riskyRoute.accurate,
+     cost:cost(riskyRoute.distanceKm*0.9,weightTons)*0.85,score:60,warn:true,accurate:riskyRoute.accurate,
      rain:clamp(baseline.rain*1.3),slide:clamp(baseline.slide*1.35)}
   ];
   renderRouteList();
@@ -372,9 +381,9 @@ function selectRoute(i){
   destMarker=L.circleMarker(r.latlngs[r.latlngs.length-1],{radius:8,color:'#fff',weight:3,fillColor:'#138808',fillOpacity:1}).addTo(map).bindPopup('<b>Destination:</b> '+toLabelG+(r.accurate?`<br>${r.distanceKm.toFixed(0)} km road route`:''));
   map.fitBounds(routeLine.getBounds(),{padding:[30,30]});
   const hrs=Math.floor(r.durationHr),mins=Math.round((r.durationHr-hrs)*60);
-  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+weightG+' ton(s) from '+fromLabelG+' to '+toLabelG+', the <b>'+r.label+' route</b> ('+r.sub+') is selected. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b>, cost <b>₹'+Math.round(r.cost).toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'. Rainfall risk <b>'+r.rain+'%</b>, landslide risk <b>'+r.slide+'%</b> along this corridor.';
+  document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> For '+weightDisplayG+' from '+fromLabelG+' to '+toLabelG+', the <b>'+r.label+' route</b> ('+r.sub+') is selected. '+(r.accurate?'Road distance <b>'+r.distanceKm.toFixed(0)+' km</b>, ':'')+'estimated ETA <b>'+hrs+'h '+mins+'m</b>, cost <b>₹'+Math.round(r.cost).toLocaleString('en-IN')+'</b>'+(r.accurate?'':' (approximate, road data unavailable offline)')+'. Rainfall risk <b>'+r.rain+'%</b>, landslide risk <b>'+r.slide+'%</b> along this corridor.';
 }
-computeRoutes('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur'],2);
+computeRoutes('Kamrup, Assam','Imphal West, Manipur',CITIES['Assam'],CITIES['Manipur'],2,'2 Tons');
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
 
 let issueLatLng=null,issueReports=[],issueMarkers=[];
@@ -504,13 +513,17 @@ renderIssueList();
 async function optimize(){
   const fState=document.getElementById('fromState').value,fDist=document.getElementById('fromDistrict').value;
   const tState=document.getElementById('toState').value,tDist=document.getElementById('toDistrict').value;
-  const w=document.getElementById('weight').value;
+  const wRaw=parseFloat(document.getElementById('weight').value)||1;
+  const unit=document.getElementById('weightUnit').value;
+  const unitLabel=unit==='kg'?'kg':unit==='quintal'?'quintal':(wRaw===1?'ton':'tons');
+  const wTons=unit==='kg'?wRaw/1000:unit==='quintal'?wRaw/10:wRaw;
+  const weightDisplay=wRaw+' '+unitLabel+(unit!=='ton'?' ('+wTons.toFixed(2)+' tons)':'');
   const fLabel=fDist+', '+fState,tLabel=tDist+', '+tState;
   document.getElementById('recommend').innerHTML='<strong>AI Recommendation:</strong> Locating '+fLabel+' and '+tLabel+'…';
   toast('Locating districts…');
   const [from,to]=await Promise.all([geocodeDistrict(fDist,fState),geocodeDistrict(tDist,tState)]);
   toast('Calculating road-accurate routes…');
-  const r=await computeRoutes(fLabel,tLabel,from,to,w);
+  const r=await computeRoutes(fLabel,tLabel,from,to,wTons,weightDisplay);
   toast(r.accurate?'Routes optimized using live road data':'Routes optimized (estimated — offline)');
 }
 function askAI(){const q=document.getElementById('question').value.trim();const a=document.getElementById('answer');if(!q){a.textContent='Please enter a logistics question.';a.style.display='block';return}a.innerHTML='<b>AI:</b> Based on the prototype logistics model, the balanced route is recommended because it offers the best trade-off between estimated travel time, cost, accessibility and disruption risk. <br><br><b>Demo note:</b> Live map, weather and government data APIs can be connected in the production version.';a.style.display='block'}
